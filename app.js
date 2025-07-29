@@ -1,42 +1,36 @@
 const express = require("express");
 const app = express();
-const { users, messages } = require("./data");
+let models = require("./data");
+const indexRouter = require("./routes/index");
+const usersRouter = require("./routes/users");
+const messagesRouter = require("./routes/messages");
+const sessionRouter = require("./routes/session");
 
-app.get("/", (req, res) => {
-    return res.send("Received a GET HTTP method");
-});
+// Parses incoming JSON payloads
+app.use(express.json());
 
-app.get("/users", (req, res) => {
-    return res.send(Object.values(users));
-});
+// Parses URL encoded data (from forms)
+app.use(express.urlencoded({ extended: true}));
 
-app.get("/users/:userId", (req, res) => {
-    return res.send(users[req.params.userId]);
-});
-
-app.get("/messages", (req, res) => {
-    return res.send(Object.values(messages));
-});
-
-app.get("/messages/:messageId", (req, res) => {
-    return res.send(messages[req.params.messageId]);
-});
-
-app.post("/users", (req, res) => {
-    return res.send("Received a POST HTTP method on user resource");
-});
-
-app.put("/users/:userId", (req, res) => {
-    return res.send(
-        `Received a PUT HTTP method on user/${req.params.userId} resource`
-    );
-});
-
-app.delete("/users/:userId", (req, res) => {
-    return res.send(
-        `Received a DELETE HTTP method on user/${req.params.userId} resource`
-    );
+// Passes over the current userId
+app.use((req, res, next) => {
+    req.context = {
+        models,
+        me: models.users[1],
+    };
+    next();
 })
+
+// Index route
+app.use("/", indexRouter);
+
+// Get user session
+app.use("/session", sessionRouter);
+
+
+app.use("/users", usersRouter);
+app.use("/messages", messagesRouter);
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
