@@ -10,12 +10,29 @@ RESTful API architecture leverages the HTTP protocol to enable communication bet
 
 Assuming that a user would be authenticated (logged in) with a session token - in this project I also mocked that with the following function where models refers to the data.js file which stores some mock users and messages data. 
 
-![alt text](/imgs/mockToken.png)
+![alt text](./imgs/mockToken.png)
 
 This allows the server to remain stateless in this simple project, and we can store relevant session data using req.context which will be referenced in our HTTP methods in the relevant routes.
 
 This middleware function is applied BEFORE any other routes in our app, ensuring that req.context is ALWAYS defined which allows all route logic to parse that data. 
 
+## Adding on Authentification Token
+
+The following logic was implemented based on this [video reference](https://www.youtube.com/watch?v=7nafaH9SddU)
+
+Next, I mocked a user authentification on the users/login route. Normally, a user would enter a login form and submit a post request with their email and password and then our server would use passport and our database to authenticate the user. 
+
+For simplicity, I mocked a user who has already been authenticated with the following function which generates a token for that user.
+
+![alt text](./imgs/mockAuth.png)
+
+Then I created the following verify token middleware function which stores the current token data to req.token
+
+![alt text](./imgs/verifyToken.png)
+
+So, going forward whenever we need to verify a user, we can check this token, which I implemented on the POST /messages route - where we need to authenticate a user before they post a new message
+
+![alt text](./imgs/authPost.png)
 
 ## Setting up
 
