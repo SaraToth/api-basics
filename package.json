@@ -1,5 +1,21 @@
 {
   "dependencies": {
     "express": "^5.1.0"
-  }
+  },
+  "name": "api-basics",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SaraToth/api-basics.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SaraToth/api-basics/issues"
+  },
+  "homepage": "https://github.com/SaraToth/api-basics#readme"
 }
